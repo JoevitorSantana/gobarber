@@ -3,8 +3,7 @@ import { AuthenticationService } from "../services/AuthenticationService";
 
 const sessionsRoutes = Router();
 
-sessionsRoutes.post("/", async (request, response) => {
-    try {
+sessionsRoutes.post("/", async (request, response) => {    
         const {email, password} = request.body
 
         const authenticateService = new AuthenticationService();
@@ -14,10 +13,7 @@ sessionsRoutes.post("/", async (request, response) => {
         })
 
         return response.json({user, token});
-
-    } catch(err) {
-        return response.status(400).json({error: (err as Error).message});
-    }    
+    
 })
 
 export {sessionsRoutes}

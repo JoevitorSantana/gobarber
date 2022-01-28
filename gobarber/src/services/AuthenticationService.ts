@@ -4,6 +4,7 @@ import { getRepository } from "typeorm";
 import { User } from "../models/User";
 import authConfig from '../config/auth'
 import auth from "../config/auth";
+import { AppError } from "../errors/AppError";
 
 interface IRequest{
     email: string;
@@ -23,13 +24,13 @@ class AuthenticationService{
         const user = await usersRepository.findOne({where: {email}});
 
         if(!user){
-            throw new Error('Email or password incorrect!');
+            throw new AppError('Email or password incorrect!');
         }
 
         const passwordMatched = await compare(password, user.password);
 
         if(!passwordMatched){
-            throw new Error('Email or password incorrect!');
+            throw new AppError('Email or password incorrect!');
         }
 
         const token = sign({}, auth.jwt.secret, {
