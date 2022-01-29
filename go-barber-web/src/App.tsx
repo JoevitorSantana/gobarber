@@ -1,8 +1,12 @@
+import { SignIn } from './pages/SignIn';
+import { SignUp } from './pages/SignUp';
+import GlobalStyle from './styles/global';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello world</h1>
+        <GlobalStyle />
+        <SignUp />
     </div>
   );
 }
