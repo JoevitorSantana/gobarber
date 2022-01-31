@@ -1,3 +1,4 @@
+import { AuthContext, AuthProvider } from './hooks/AuthContext';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import GlobalStyle from './styles/global';
@@ -5,8 +6,12 @@ import GlobalStyle from './styles/global';
 function App() {
   return (
     <div className="App">
-        <GlobalStyle />
-        <SignUp />
+        <>
+            <AuthProvider>
+                <SignIn />
+            </AuthProvider>
+            <GlobalStyle />
+        </>
     </div>
   );
 }
