@@ -10,6 +10,7 @@ describe('CreateAppointments', () => {
 
         const appointment = await createAppointments.execute({
             date: new Date(),
+            user_id: 'user-id',
             provider_id: '123123',
         })
 
@@ -24,14 +25,35 @@ describe('CreateAppointments', () => {
 
         await createAppointments.execute({
             date: appointmentDate,
+            user_id: 'user-id',
             provider_id: '123123'
         })
 
         expect(
             createAppointments.execute({
                 date: appointmentDate,
+                user_id: 'user-id',
                 provider_id: '123456',
             })
         ).rejects.toBeInstanceOf(AppError);
-    })
+    });
+
+    
+  it('should not be able to create an appointment on a past date', async () => {
+
+    const appointmentsRepositoryInMemory = new AppointmentsRepositoryInMemory();
+        const createAppointments = new CreateAppointmentService(appointmentsRepositoryInMemory);
+
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2020, 4, 10, 12).getTime();
+    });
+
+    await expect(
+      createAppointments.execute({
+        date: new Date(2020, 4, 10, 11),
+        user_id: 'user-id',
+        provider_id: 'provider-id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 })

@@ -38,6 +38,16 @@ class UsersRepositoryInMemory implements IUsersRepository{
         return user;
     }
 
+    public async findAllProviders(except_user_id?: string):Promise<User[]>{
+        let {usersRepository} = this;
+    
+        if(except_user_id){
+            usersRepository = this.usersRepository.filter(user => user.id !== except_user_id);
+        }
+    
+        return usersRepository;
+    }
+
 }
 
 export {UsersRepositoryInMemory}

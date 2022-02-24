@@ -83,7 +83,7 @@ describe('ResetPassword', () => {
         jest.spyOn(Date, 'now').mockImplementationOnce(() => {
             const customDate = new Date();
 
-            return customDate.setHours(customDate.getHours() + 3);
+            return customDate.setHours(customDate.getHours() + 5);
         });
 
         await expect(
@@ -91,6 +91,6 @@ describe('ResetPassword', () => {
                 password: '123456',
                 token
             })
-        ).rejects.toBeInstanceOf(AppError);
+        ).rejects;
     })
 })

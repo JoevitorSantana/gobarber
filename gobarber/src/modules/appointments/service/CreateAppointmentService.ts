@@ -6,7 +6,8 @@ import { IAppointmentsRepository } from '../repositories/IAppointmentsRepository
 
 
 interface Request{
-    date: Date,
+    date: Date;
+    user_id: string;
     provider_id: string;
 }
 @injectable()
@@ -18,7 +19,7 @@ class CreateAppointmentService {
     )
     {}
 
-    public async execute({date, provider_id}: Request): Promise<Appointment> {        
+    public async execute({date, provider_id, user_id}: Request): Promise<Appointment> {        
 
         const appointmentDate = startOfHour(date);
 
@@ -29,8 +30,9 @@ class CreateAppointmentService {
         }
 
         const appointment = await this.appointmentsRepository.create({
-            provider_id,
             date: appointmentDate,
+            provider_id,
+            user_id,            
         });        
 
         return appointment;
