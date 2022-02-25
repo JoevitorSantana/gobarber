@@ -1,5 +1,5 @@
 import { getDate, getDaysInMonth } from "date-fns";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { Appointment } from "../../infra/typeorm/entities/Appointment";
 import { IAppointmentsRepository } from "../../repositories/IAppointmentsRepository";
 
@@ -14,6 +14,7 @@ type IResponse = Array<{
     available: boolean;
 }>
 
+@injectable()
 class ListProviderMonthAvailabilityService{
 
     constructor(

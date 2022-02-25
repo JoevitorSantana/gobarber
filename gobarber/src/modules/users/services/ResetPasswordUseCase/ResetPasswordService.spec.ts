@@ -32,10 +32,7 @@ describe('ResetPassword', () => {
             password: '123456'
         })
 
-        const {token} = await userTokensRepositoryInMemory.generate(user.id);
-
-        console.log(user);
-        console.log(token);
+        const {token} = await userTokensRepositoryInMemory.generate(user.id);        
 
         const generateHash = jest.spyOn(hashProviderInMemory, 'generateHash');
 

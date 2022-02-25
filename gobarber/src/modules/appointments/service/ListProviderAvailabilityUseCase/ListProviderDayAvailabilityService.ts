@@ -1,5 +1,5 @@
 import { getHours, isAfter } from "date-fns";
-import { inject } from "tsyringe"
+import { inject, injectable } from "tsyringe"
 import { IAppointmentsRepository } from "../../repositories/IAppointmentsRepository"
 
 interface IRequest{
@@ -14,6 +14,7 @@ type IResponse = Array<{
     available: boolean;
 }>
 
+@injectable()
 class ListProviderDayAvailabilityService {
 
     constructor(
