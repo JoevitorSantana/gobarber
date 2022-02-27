@@ -1,15 +1,18 @@
-import { AppError } from "../../../shared/errors/AppError";
-import { AppointmentsRepositoryInMemory } from "../repositories/in-memory/AppointmentsRepositoryInMemory";
+import { AppError } from "../../../../shared/errors/AppError";
+import { NotificationsRepositoryInMemory } from "../../../notifications/repositories/in-memory/NotificationsRepositoryInMemory";
+import { AppointmentsRepositoryInMemory } from "../../repositories/in-memory/AppointmentsRepositoryInMemory";
 import { CreateAppointmentService } from "./CreateAppointmentService";
 
 let appointmentsRepository: AppointmentsRepositoryInMemory;
+let notificationsRepositoryInMemory: NotificationsRepositoryInMemory;
 let createAppointment: CreateAppointmentService;
 
 describe('CreateAppointmentService', () => {
   beforeEach(() => {
-    appointmentsRepository = new AppointmentsRepositoryInMemory();    
+    appointmentsRepository = new AppointmentsRepositoryInMemory();   
+    notificationsRepositoryInMemory = new NotificationsRepositoryInMemory(); 
     createAppointment = new CreateAppointmentService(
-      appointmentsRepository,            
+      appointmentsRepository, notificationsRepositoryInMemory          
     );
   });
 

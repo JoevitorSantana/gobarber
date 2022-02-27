@@ -1,37 +1,28 @@
-import { parseISO } from "date-fns";
 import { Router } from "express";
-import { getCustomRepository } from "typeorm";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { AppointmentsRepository } from "../../../../modules/appointments/infra/typeorm/repositories/AppointmentsRepository";
-import { CreateAppointmentService } from "../../../../modules/appointments/service/CreateAppointmentService";
-import { container } from "tsyringe";
+import { ProviderAppointmentsController } from "../../../../modules/appointments/service/ListProviderAppointmentsUseCase/ProviderAppointmentsController";
+import { CreateAppointmentController } from "../../../../modules/appointments/service/CreateAppointmentUseCase/CreateAppointmentController";
+import { celebrate, Joi, Segments } from "celebrate";
 
 const appointmentsRouter = Router();
 
+const providerAppointmentsController = new ProviderAppointmentsController();
+
 appointmentsRouter.use(ensureAuthenticated);
 
-/*appointmentsRouter.get("/", async (request, response) => {
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+const createAppointment = new CreateAppointmentController();
 
-    const appointments = await appointmentsRepository.find();
+appointmentsRouter.post("/", celebrate({
+    [Segments.BODY]: {
+        provider_id: Joi.string().uuid().required(),
+        date: Joi.date(),
+    }
+}), createAppointment.create);
 
-    return response.json(appointments);;
-})*/
-
-appointmentsRouter.post("/", async (request, response) => { 
-        const user_id = request.user.id;   
-        const {provider_id, date} = request.body;
-
-        const parsedDate = parseISO(date);        
-        const createAppointment = container.resolve(CreateAppointmentService);
-
-        const appointment = await createAppointment.execute({
-            date: parsedDate,
-            user_id,
-            provider_id,
-        });
-
-        return response.json(appointment);
-});
+appointmentsRouter.get('/me', celebrate({
+    [Segments.PARAMS]: {
+        provider_id: Joi.string().uuid().required(),
+    }
+}),providerAppointmentsController.index)
 
 export {appointmentsRouter};

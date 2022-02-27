@@ -1,3 +1,5 @@
+import { string } from "@hapi/joi";
+import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { ListProviderDayAvailabilityController } from "../../../../modules/appointments/service/ListProviderAvailabilityUseCase/ListProviderDayAvailabilityController";
 import { ListProviderMonthAvailabilityController } from "../../../../modules/appointments/service/ListProviderMonthAvailabilityUseCase/ListProviderMonthAvailabilityController";
@@ -12,7 +14,15 @@ const providerDayAvailabilityController = new ListProviderDayAvailabilityControl
 
 providerRoutes.use(ensureAuthenticated);
 providerRoutes.get('/', listProviders.index);
-providerRoutes.get('/:provider_id/month-availability', providerMonthAvailabilityController.index);
-providerRoutes.get('/:provider_id/day-availability', providerDayAvailabilityController.index);
+providerRoutes.get('/:provider_id/month-availability', celebrate({
+    [Segments.PARAMS]: {
+        provider_id: Joi.string().uuid().required()
+    }
+}), providerMonthAvailabilityController.index);
+providerRoutes.get('/:provider_id/day-availability', celebrate({
+    [Segments.PARAMS]: {
+        provider_id: Joi.string().uuid().required()
+    }
+}), providerDayAvailabilityController.index);
 
 export {providerRoutes}
