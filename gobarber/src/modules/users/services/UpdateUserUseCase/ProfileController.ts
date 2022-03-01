@@ -1,3 +1,4 @@
+import { classToClass } from "class-transformer";
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { ShowProfileService } from "../ShowProfileUseCase/ShowProfileService";
@@ -19,7 +20,7 @@ class ProfileController{
             old_password,
         })
 
-        return response.status(204).json(user)
+        return response.status(204).json(classToClass(user))
     }
 
     public async show(request: Request, response:Response):Promise<Response>{
@@ -31,7 +32,7 @@ class ProfileController{
             user_id
         })
 
-        return response.status(200).json(user);
+        return response.status(200).json(classToClass(user));
     }
 }
 

@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
+import { IFindAllProvidersDTO } from "../../dtos/IFindAllProvidersDTO";
 import { User } from "../../infra/typeorm/entities/User";
 import { IUsersRepository } from "../IUsersRepository";
 
@@ -38,7 +39,7 @@ class UsersRepositoryInMemory implements IUsersRepository{
         return user;
     }
 
-    public async findAllProviders(except_user_id?: string):Promise<User[]>{
+    public async findAllProviders(except_user_id: IFindAllProvidersDTO):Promise<User[]>{
         let {usersRepository} = this;
     
         if(except_user_id){

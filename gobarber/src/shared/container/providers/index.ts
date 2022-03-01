@@ -1,4 +1,5 @@
 import { container } from "tsyringe";
+import './CacheProvider';
 import { EtherealMailProvider } from "./MailProvider/implementations/EtherealMailProvider";
 import { IMailProvider } from "./MailProvider/models/IMailProvider";
 import { HandleBarsMailTemplateProvider } from "./MailTemplateProvider/implementations/HandleBarsMailProvider";
