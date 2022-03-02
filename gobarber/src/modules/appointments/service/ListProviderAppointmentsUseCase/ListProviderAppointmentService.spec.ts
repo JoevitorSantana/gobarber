@@ -1,14 +1,18 @@
+import { RedisCacheProvider } from "../../../../shared/container/providers/CacheProvider/implementations/RedisCaheProvider";
+import { CacheProviderInMemory } from "../../../../shared/container/providers/CacheProvider/in-memory/CacheProviderInMemory";
 import { AppointmentsRepositoryInMemory } from "../../repositories/in-memory/AppointmentsRepositoryInMemory";
 import { ListProviderAppointmentService } from "./ListProviderAppointmentService";
 
 let appointmentsRepository: AppointmentsRepositoryInMemory;
 let listProviderAppointments: ListProviderAppointmentService;
+let cacheProvider: CacheProviderInMemory;
 
 describe('ListoProviderAppointment', () => {
   beforeEach(() => {
-    appointmentsRepository = new AppointmentsRepositoryInMemory();    
+    appointmentsRepository = new AppointmentsRepositoryInMemory();
+    cacheProvider = new CacheProviderInMemory();    
     listProviderAppointments = new ListProviderAppointmentService(
-      appointmentsRepository,      
+      appointmentsRepository, cacheProvider     
     );
   });
 

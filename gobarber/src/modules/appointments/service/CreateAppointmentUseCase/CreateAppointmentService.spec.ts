@@ -1,3 +1,5 @@
+import { RedisCacheProvider } from "../../../../shared/container/providers/CacheProvider/implementations/RedisCaheProvider";
+import { CacheProviderInMemory } from "../../../../shared/container/providers/CacheProvider/in-memory/CacheProviderInMemory";
 import { AppError } from "../../../../shared/errors/AppError";
 import { NotificationsRepositoryInMemory } from "../../../notifications/repositories/in-memory/NotificationsRepositoryInMemory";
 import { AppointmentsRepositoryInMemory } from "../../repositories/in-memory/AppointmentsRepositoryInMemory";
@@ -6,13 +8,15 @@ import { CreateAppointmentService } from "./CreateAppointmentService";
 let appointmentsRepository: AppointmentsRepositoryInMemory;
 let notificationsRepositoryInMemory: NotificationsRepositoryInMemory;
 let createAppointment: CreateAppointmentService;
+let cacheProvider: CacheProviderInMemory
 
 describe('CreateAppointmentService', () => {
   beforeEach(() => {
     appointmentsRepository = new AppointmentsRepositoryInMemory();   
     notificationsRepositoryInMemory = new NotificationsRepositoryInMemory(); 
+    cacheProvider = new CacheProviderInMemory();
     createAppointment = new CreateAppointmentService(
-      appointmentsRepository, notificationsRepositoryInMemory          
+      appointmentsRepository, notificationsRepositoryInMemory, cacheProvider          
     );
   });
 

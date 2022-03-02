@@ -1,3 +1,4 @@
+import { RedisCacheProvider } from "../../../../shared/container/providers/CacheProvider/implementations/RedisCaheProvider";
 import { AppError } from "../../../../shared/errors/AppError";
 import { HashProviderInMemory } from "../../providers/HashProvider/in-memory/HashProviderInMemory";
 import { UsersRepositoryInMemory } from "../../repositories/in-memory/UsersRepositoryInMemory";
@@ -24,7 +25,8 @@ describe('ResetPassword', () => {
 
     it('should be able to reset the password', async () => {
 
-        const createUserService = new CreateUserService(usersRepositoryInMemory, hashProviderInMemory)
+        const cacheProvider = new RedisCacheProvider();
+        const createUserService = new CreateUserService(usersRepositoryInMemory, hashProviderInMemory, cacheProvider)
 
         const user = await createUserService.execute({
             name: 'John doe',
