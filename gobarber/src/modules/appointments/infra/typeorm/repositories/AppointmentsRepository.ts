@@ -13,8 +13,8 @@ class AppointmentsRepository implements IAppointmentsRepository{
         this.repository = getRepository(Appointment);
     }    
 
-    public async findByDate(date: Date): Promise<Appointment | undefined> {
-        const user = await this.repository.findOne({date});        
+    public async findByDate(date: Date, provider_id: string): Promise<Appointment | undefined> {
+        const user = await this.repository.findOne({date, provider_id});        
         return user;
     }
     
@@ -38,6 +38,7 @@ class AppointmentsRepository implements IAppointmentsRepository{
                         `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
                 ),
             },
+            relations: ['users']
         })
     
         return appointments;        

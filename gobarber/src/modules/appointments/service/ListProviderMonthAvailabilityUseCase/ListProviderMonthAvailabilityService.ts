@@ -1,4 +1,4 @@
-import { getDate, getDaysInMonth } from "date-fns";
+import { getDate, getDaysInMonth, isAfter } from "date-fns";
 import { inject, injectable } from "tsyringe";
 import { Appointment } from "../../infra/typeorm/entities/Appointment";
 import { IAppointmentsRepository } from "../../repositories/IAppointmentsRepository";
@@ -39,13 +39,17 @@ class ListProviderMonthAvailabilityService{
         );
 
         const availability = eachDayArray.map(day => {
+
+            const compareDate = new Date(year, month -1, day, 23, 59, 29);
+
             const appointmentsInDay = appointments.filter(appointment => {
                 return getDate(appointment.date) === day;
             });
 
             return {
                 day,
-                available: appointmentsInDay.length < 10,
+                available: 
+                isAfter(compareDate, new Date()) && appointmentsInDay.length < 10,
             };
         });
 

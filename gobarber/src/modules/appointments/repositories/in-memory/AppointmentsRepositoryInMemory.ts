@@ -9,8 +9,11 @@ class AppointmentsRepositoryInMemory implements IAppointmentsRepository{
     
     private appointmentsRepository: Appointment[] = [];
 
-    public async findByDate(date: Date): Promise<Appointment | undefined> {
-        const appointments = this.appointmentsRepository.find(appointment => isEqual(appointment.date, date));
+    public async findByDate(date: Date, provider_id: string): Promise<Appointment | undefined> {
+        const appointments = this.appointmentsRepository.find(appointment => 
+            isEqual(appointment.date, date) &&
+            appointment.provider_id === provider_id
+        );
         return appointments
     }
     public async create({date, provider_id, user_id}: ICreateAppointmentDTO): Promise<Appointment> {
