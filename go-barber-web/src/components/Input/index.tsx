@@ -7,10 +7,11 @@ import { FiAlertCircle } from 'react-icons/fi';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {//interface dizendo que o input receberá as propriedades de um input
     name: string;//propriedade name que deverá ser obrigatória
+    containerStyle?: object;
     icon?: React.ComponentType<IconBaseProps>;//propriedade icon que é opcional e recebe atributos de IconBaseProps
 }
 
-export function Input({name, icon: Icon, ...rest}:InputProps){
+export function Input({name, containerStyle = {}, icon: Icon, ...rest}:InputProps){
 
     const inputRef = useRef<HTMLInputElement>(null); //para pegar as referências do input
     const {fieldName, defaultValue, error, registerField} = useField(name);
@@ -35,7 +36,8 @@ export function Input({name, icon: Icon, ...rest}:InputProps){
     }, []);
 
     return(
-        <Container isFocused={isFocused} isFilled={isFilled} isErrored={!!error}>
+        <Container isFocused={isFocused} style={containerStyle}
+        isFilled={isFilled} isErrored={!!error}>
         { Icon && <Icon size={20} /> }
             <input onFocus={handleInputFocus} onBlur={handleInputBlur} defaultValue={defaultValue} ref={inputRef} {...rest}/>
             {error && (
