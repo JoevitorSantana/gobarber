@@ -19,10 +19,6 @@ appointmentsRouter.post("/", celebrate({
     }
 }), createAppointment.create);
 
-appointmentsRouter.get('/me', celebrate({
-    [Segments.PARAMS]: {
-        provider_id: Joi.string().uuid().required(),
-    }
-}),providerAppointmentsController.index)
+appointmentsRouter.get('/me', providerAppointmentsController.index)
 
 export {appointmentsRouter};

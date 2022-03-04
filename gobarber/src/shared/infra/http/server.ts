@@ -13,13 +13,14 @@ import { rateLimiter } from './middlewares/RateLimiter';
 
 const app = express();
 
-app.use(rateLimiter);
 app.use(cors());
 app.use(express.json());
 app.use(errors());
 app.use(routes);
 
 app.use('/files', express.static(uploadConfig.tmpFolder));
+
+app.use(rateLimiter);
  
 app.get('/', (request, response) => response.json({ message: 'Hello world!' }));
 

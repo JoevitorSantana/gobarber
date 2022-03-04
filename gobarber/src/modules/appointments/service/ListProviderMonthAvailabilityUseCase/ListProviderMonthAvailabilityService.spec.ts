@@ -72,7 +72,12 @@ describe('ListProviderMonthAvailability', () => {
         user_id: '123123',
         date: new Date(2020, 4, 20, 17, 0, 0),
       });
-
+  
+      await appointmentsRepository.create({
+        provider_id: 'user',
+        user_id: '123123',
+        date: new Date(2020, 4, 21, 8, 0, 0),
+      });
   
       const availability = await listProviderMonthAvailability.execute({
         provider_id: 'user',

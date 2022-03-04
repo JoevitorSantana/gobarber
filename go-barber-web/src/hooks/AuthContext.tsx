@@ -1,9 +1,15 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState } from "react";
 import api from "../service/api";
 
+interface User{
+    id: string;
+    name: string;
+    avatar_url: string;
+}
+
 interface AuthState {
     token: string;
-    user: object;
+    user: User;
 }
 
 interface AuthProviderProps{
@@ -16,7 +22,7 @@ interface SignInCredentials{
 }
 
 interface AuthContextData {
-    user: object;
+    user: User;
     signIn(credentials: SignInCredentials): Promise<void>;
     signOut(): void;
 }
@@ -30,6 +36,8 @@ export function AuthProvider({children}:AuthProviderProps){
         const user = localStorage.getItem('@GoBarber:user');
 
         if (token && user) {
+            api.defaults.headers.authorization = `Bearer ${token}`;
+
             return {token, user: JSON.parse(user)};
         }
 
@@ -47,6 +55,8 @@ export function AuthProvider({children}:AuthProviderProps){
 
         localStorage.setItem('@GoBarber:token', token);
         localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+
+        api.defaults.headers.authorization = `Bearer ${token}`;
 
         setData({token, user});
     }, []);
